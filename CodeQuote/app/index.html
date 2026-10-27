@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeQuote | Developer Inspiration</title>
+  <meta name="description" content="CodeQuote: daily inspiration, quotes and motivation for developers.">
+  <meta name="theme-color" content="#05030a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305030a'/%3E%3Ctext x='50' y='64' font-size='44' text-anchor='middle' fill='%2300f0ff' font-family='monospace'%3ECQ%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="logo" href="#home" aria-label="CodeQuote home">
+        <span class="logo-mark" aria-hidden="true">&lt;/&gt;</span>
+        <span>Code<b>Quote</b></span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" type="button"
+              aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#explore">Explore Quotes</a></li>
+        <li><a href="#categories">Categories</a></li>
+        <li><a href="#favorites">Favorites <span class="badge" id="favCount" aria-label="saved quotes">0</span></a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="shape shape-1" aria-hidden="true"></div>
+      <div class="shape shape-2" aria-hidden="true"></div>
+      <div class="shape shape-3" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <p class="eyebrow">Daily inspiration for developers</p>
+        <h1>Fuel Your Code. <span class="gradient-text">Inspire Your Mind.</span></h1>
+        <p class="hero-sub">
+          CodeQuote brings you quotes about programming, learning, creativity and
+          persistence, so every coding session starts with a spark.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#explore">Explore Quotes</a>
+          <button class="btn btn-ghost" id="inspireBtn" type="button">Get Inspired</button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="featured" aria-labelledby="featuredTitle">
+      <div class="container">
+        <h2 id="featuredTitle" class="sr-only">Featured quote</h2>
+        <article class="featured-card glass" id="featuredCard">
+          <span class="tag" id="featuredCategory"></span>
+          <blockquote><p id="featuredText"></p></blockquote>
+          <p class="author" id="featuredAuthor"></p>
+          <div class="actions">
+            <button class="btn btn-primary btn-small" type="button" data-action="new">New Quote</button>
+            <button class="btn btn-outline btn-small" type="button" data-action="copy-text">Copy Text</button>
+            <button class="btn btn-outline btn-small" type="button" data-action="copy-full">Copy with Author</button>
+            <button class="btn btn-outline btn-small fav-btn" id="featuredFav" type="button" data-action="favorite" aria-pressed="false">♡ Save</button>
+            <button class="btn btn-outline btn-small" type="button" data-action="share">Share</button>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="section" id="daily" aria-labelledby="dailyTitle">
+      <div class="container narrow">
+        <div class="section-head">
+          <h2 id="dailyTitle">Daily <span class="gradient-text">Inspiration</span></h2>
+          <p id="dailyDate" class="muted"></p>
+        </div>
+        <div id="dailyCard"></div>
+      </div>
+    </section>
+    <section class="section" id="explore" aria-labelledby="exploreTitle">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="exploreTitle">Explore <span class="gradient-text">Quotes</span></h2>
+          <p class="muted">Search by quote, author or category, or pick a category below.</p>
+        </div>
+
+        <div class="search-wrap">
+          <label class="sr-only" for="searchInput">Search quotes</label>
+          <input id="searchInput" type="search" placeholder="Search quotes, authors, categories..." autocomplete="off">
+        </div>
+
+        <div class="filters-wrap" id="categories">
+          <h3 class="filters-title">Categories</h3>
+          <div class="filters" id="filters" role="group" aria-label="Filter quotes by category">
+            <button class="chip is-active" type="button" data-category="All" aria-pressed="true">All</button>
+            <button class="chip" type="button" data-category="Programming" aria-pressed="false">Programming</button>
+            <button class="chip" type="button" data-category="Learning" aria-pressed="false">Learning</button>
+            <button class="chip" type="button" data-category="Creativity" aria-pressed="false">Creativity</button>
+            <button class="chip" type="button" data-category="Discipline" aria-pressed="false">Discipline</button>
+            <button class="chip" type="button" data-category="Motivation" aria-pressed="false">Motivation</button>
+          </div>
+        </div>
+
+        <p class="results-count muted" id="resultsCount" aria-live="polite"></p>
+        <div class="quote-grid" id="quoteGrid"></div>
+
+        <div class="empty glass" id="emptyState" hidden>
+          <h3>No quotes found</h3>
+          <p class="muted">Nothing matches your search. Try a different word or category.</p>
+          <button class="btn btn-primary btn-small" type="button" id="resetBtn">Clear search and filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="favorites" aria-labelledby="favoritesTitle">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="favoritesTitle">Your <span class="gradient-text">Favorites</span></h2>
+          <p class="muted">Saved in this browser, so they are still here after a refresh.</p>
+        </div>
+        <div class="quote-grid" id="favGrid"></div>
+        <div class="empty glass" id="favEmpty" hidden>
+          <h3>No favorites yet</h3>
+          <p class="muted">Tap “♡ Save” on any quote to keep it here.</p>
+          <a class="btn btn-primary btn-small" href="#explore">Browse quotes</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="aboutTitle">
+      <div class="container narrow">
+        <div class="glass about-card">
+          <h2 id="aboutTitle">About <span class="gradient-text">CodeQuote</span></h2>
+          <p>
+            CodeQuote is a developer inspiration project created to demonstrate
+            front-end development and DevOps practices. The website is built with
+            plain HTML, CSS and JavaScript, then tested, packaged and deployed with
+            a modern pipeline.
+          </p>
+          <p>The project uses:</p>
+          <ul class="tech-list">
+            <li class="tag">HTML</li>
+            <li class="tag">CSS</li>
+            <li class="tag">JavaScript</li>
+            <li class="tag">Git</li>
+            <li class="tag">Docker</li>
+            <li class="tag">Jenkins</li>
+            <li class="tag">Kubernetes</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="logo" href="#home" aria-label="CodeQuote home">
+          <span class="logo-mark" aria-hidden="true">&lt;/&gt;</span>
+          <span>Code<b>Quote</b></span>
+        </a>
+        <p class="muted">A developer inspiration project that demonstrates a complete DevOps workflow.</p>
+      </div>
+      <nav aria-label="Footer navigation">
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#explore">Explore Quotes</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#favorites">Favorites</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="copyright muted">&copy; <span id="year"></span> CodeQuote. All rights reserved.</p>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
